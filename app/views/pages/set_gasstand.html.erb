@@ -1,0 +1,30 @@
+<div class="container">
+    <div class="header-wrapper">
+        <h1>ガソリン給油シミュレーション</h1>
+    </div>
+
+    <div class="bike-wrapper">
+        <h2>バイクの情報</h2>
+        <p>タンクの容量：<%= @bike.fuel_capa %>
+        <p>燃費：<%= @bike.fuel_per1km %>
+    </div>
+
+
+    <div class="gasstand-wrapper">
+        <h2>ガソリンスタンドの情報を入力してください</h2>
+        <div class="form-wrapper">
+            <%= bootstrap_form_for @gasstand do |f| %>
+                最安値：
+                <%= f.number_field :gas_cheap %>
+                少し安め：
+                <%= f.number_field :gas_littlecheap %>
+                普通：
+                <%= f.number_field :gas_normal %>
+                少し高め：
+                <%= f.number_field :gas_littleexpensive %>
+                最高値：
+                <%= f.number_field :gas_expensive %>
+            <% end %>
+        </div>
+    </div>
+</div>

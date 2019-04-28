@@ -1,3 +1,18 @@
-<! DOCTYPE html>
-<h1>Pages#index</h1>
-<p>Find me in app/views/pages/index.html.erb</p>
+<div class="container">
+    <div class="header-wrapper">
+        <h1>ガソリン給油シミュレーション</h1>
+    </div>
+
+    <div class="bike-wrapper">
+        <h2>バイクの情報を入力してさい</h2>
+        <div class="form-wrapper">
+            <%= bootstrap_form_for @bike, url: set_gasstand_path do |f| %>
+                タンクの容量(L)：
+                <%= f.number_field :fuel_capa %>
+                燃費(km/L)：
+                <%= f.number_field :fuel_per1km %>
+                <%= f.submit "入力完了" %>
+            <% end %>
+        </div>
+    </div>
+</div>

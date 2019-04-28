@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  gas_cheap: 1.5
+  gas_littlecheap: 1.5
+  gas_normal: 1.5
+  gas_littleexpensive: 1.5
+  gas_expensive: 1.5
+
+two:
+  gas_cheap: 1.5
+  gas_littlecheap: 1.5
+  gas_normal: 1.5
+  gas_littleexpensive: 1.5
+  gas_expensive: 1.5
