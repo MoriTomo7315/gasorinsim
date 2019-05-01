@@ -1,6 +1,7 @@
 class PagesController < ApplicationController
 
-  @@params_temp = {}
+  @@params_temp_bike = {fuel_capa: 0, fuel_per1km: 0}
+  @@params_temp_gasstand = {gas_cheap: 0, gas_littlecheap: 0, gas_normal: 0, gas_littleexpensive: 0, gas_expensive: 0}
 
   def index
     @bike = Bike.new
@@ -8,23 +9,22 @@ class PagesController < ApplicationController
 
   def set_gasstand
     @bike = Bike.new(fuel_capa: params[:bike][:fuel_capa], fuel_per1km: params[:bike][:fuel_per1km])
-    @@params_temp = {bike: {fuel_capa: params[:bike][:fuel_capa], fuel_per1km: params[:bike][:fuel_per1km]}}
+    @@params_temp_bike = {fuel_capa: params[:bike][:fuel_capa], fuel_per1km: params[:bike][:fuel_per1km]}
     @gasstand = Gasstand.new
   end
 
   def simulate
-    @bike = Bike.new(fuel_capa: @@params_temp[:bike][:fuel_capa], fuel_per1km: @@params_temp[:bike][:fuel_per1km])
+    @bike = Bike.new(fuel_capa: @@params_temp_bike[:fuel_capa], fuel_per1km: @@params_temp_bike[:fuel_per1km])
     @gasstand = Gasstand.new(gas_cheap: params[:gasstand][:gas_cheap], 
                             gas_littlecheap: params[:gasstand][:gas_littlecheap],
                             gas_normal: params[:gasstand][:gas_normal],
                             gas_littleexpensive: params[:gasstand][:gas_littleexpensive],
                             gas_expensive: params[:gasstand][:gas_expensive])
-
-    @@params_temp = {gasstand: {gas_cheap: params[:gasstand][:gas_cheap], 
-                                gas_littlecheap: params[:gasstand][:gas_littlecheap],
-                                gas_normal: params[:gasstand][:gas_normal],
-                                gas_littleexpensive: params[:gasstand][:gas_littleexpensive],
-                                gas_expensive: params[:gasstand][:gas_expensive]}}
+    @@params_temp_gasstand[:gas_cheap] = params[:gasstand][:gas_cheap]
+    @@params_temp_gasstand[:gas_littlecheap] = params[:gasstand][:gas_littlecheap]
+    @@params_temp_gasstand[:gas_normal] = params[:gasstand][:gas_normal]
+    @@params_temp_gasstand[:gas_littleexpensive] = params[:gasstand][:gas_littleexpensive]                          
+    @@params_temp_gasstand[:gas_expensive] = params[:gasstand][:gas_expensive]
   end
 
   def simulate_result
@@ -33,17 +33,19 @@ class PagesController < ApplicationController
     distance_dist_Sat = RandomBell.new(mu: 10, sigma: 5)
     distance_dist_Sun = RandomBell.new(mu: 15, sigma: 5)
     fuel_tank     = 0
-    fuel_capa     = @@params_temp[:bike][:fuel_capa]
-    fuel_per1km   = @@params_temp[:bike][:fuel_per1km]
+    fuel_capa     = @@params_temp_bike[:fuel_capa].to_f
+    fuel_per1km   = @@params_temp_bike[:fuel_per1km].to_f
     fueling_litter = 0 # 給油量
     total_amountOfrefuel = 0 # 総給油量
     refueling_times = 0 # 給油回数
     running_distance = 0 # お出かけ距離
     total_running    = 0 # 総距離
+    total_cost = 0 # 総コスト
 
 
-    gas_price_array = [@@params_temp[:gasstand][:gas_cheap], @@params_temp[:gasstand][:gas_littlecheap],
-                      @@params_temp[:gasstand][:gas_normal], @@params_temp[:gasstand][:gas_littleexpensive], @@params_temp[:gasstand][:gas_expensive]]
+    gas_price_array = [@@params_temp_gasstand[:gas_cheap].to_f, @@params_temp_gasstand[:gas_littlecheap].to_f,
+                      @@params_temp_gasstand[:gas_normal].to_f, @@params_temp_gasstand[:gas_littleexpensive].to_f, 
+                      @@params_temp_gasstand[:gas_expensive].to_f]
 
     simulate_time.each do |i|
 
