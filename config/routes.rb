@@ -6,4 +6,6 @@ Rails.application.routes.draw do
   root to: 'pages#index'
 
   post "/set_gasstand", to: 'pages#set_gasstand'
+  post "/simulate", to: 'pages#simulate'
+  get "/simulate/result", to: 'pages#simulate_result'
 end

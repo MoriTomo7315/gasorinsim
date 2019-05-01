@@ -13,7 +13,7 @@
     <div class="gasstand-wrapper">
         <h2>ガソリンスタンドの情報を入力してください</h2>
         <div class="form-wrapper">
-            <%= bootstrap_form_for @gasstand do |f| %>
+            <%= bootstrap_form_for @gasstand, url: simulate_path do |f| %>
                 最安値：
                 <%= f.number_field :gas_cheap %>
                 少し安め：
@@ -24,6 +24,7 @@
                 <%= f.number_field :gas_littleexpensive %>
                 最高値：
                 <%= f.number_field :gas_expensive %>
+                <%= f.submit "入力完了" %>
             <% end %>
         </div>
     </div>
