@@ -1,0 +1,2 @@
+class Simsetting < ApplicationRecord
+end

@@ -3,16 +3,43 @@
         <h1>ガソリン給油シミュレーション</h1>
     </div>
 
-    <div class="bike-wrapper">
-        <h2>バイクの情報を入力してさい</h2>
+    <div class="container">
+        <h2 align="center" >車両とガソリン価格の情報を入力してください</h2>
         <div class="form-wrapper">
-            <%= bootstrap_form_for @bike, url: set_gasstand_path do |f| %>
-                タンクの容量(L)：
-                <%= f.number_field :fuel_capa %>
-                燃費(km/L)：
-                <%= f.number_field :fuel_per1km %>
-                <%= f.submit "入力完了" %>
-            <% end %>
+                <%= form_for @simsetting, url: simulate_path do |f| %>
+                    <div class="row">
+                        <div class="column">
+                            <div class="form-group">
+                                <%= f.label :fuel_capa, "タンクの容量(L)："%>
+                                <%= f.number_field :fuel_capa, class: "form-control"%>
+                                <%= f.label :fuel_per1km, "燃費(km/L)：" %>
+                                <%= f.number_field :fuel_per1km, class: "form-control" %>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="form-group">
+                                <%= f.label :gas_cheap, "最安値（円）：" %>
+                                <%= f.number_field :gas_cheap, class: "form-control" %>
+                            
+                                <%= f.label :gas_littlecheap, "少し安め（円）：" %>
+                                <%= f.number_field :gas_littlecheap, class: "form-control"%>
+                            
+                                <%= f.label :gas_normal, "普通（円）：" %>
+                                <%= f.number_field :gas_normal, class: "form-control"%>
+                            
+                                <%= f.label :gas_littleexpensive, "少し高め（円）：" %>
+                                <%= f.number_field :gas_littleexpensive, class: "form-control"%>
+                            
+                                <%= f.label :gas_expensive, "最高値（円）：" %>
+                                <%= f.number_field :gas_expensive, class: "form-control"%>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn-wrapper">
+                        <%= f.submit "入力内容確認", class: "btn btn-outline-primary btn-block"%>
+                    </div>
+                <% end %>
+            </div>
         </div>
     </div>
 </div>

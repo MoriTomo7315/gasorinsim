@@ -20,24 +20,64 @@
 div {
     .header-wrapper{
         width: 720px;
+        height: 180px;
         margin: 0 auto;
-        background-color: rgb(235, 155, 155);
         text-align: center;
-        color: rgb(66, 61, 61)
+        color: rgb(0, 0, 0);
+        margin-bottom: 20px;
+        padding-top: 50px;
+        padding-bottom: 50px;
+        background-image: image-url("header_gasorin.jpg");
+        opacity: 0.5;
+        // background-image: url("/app/assets/images/header_gasorin.jpg");
     }
 
     .form-wrapper {
         margin: 0 auto;
-        width: 50%;
-        height: 360px;
+        width: 60%;
     }
 
     .bike-wrapper {
         text-align: center;
+        margin: 0 auto;
+        width: 30%;
     }
 
     .gasstand-wrapper {
         text-align: center;
+        margin: 0 auto;
+        width: 30%;
     }
+
+    .result-wrapper {
+        text-align: center;
+        margin: 0 auto;
+        width: 60%;
+        margin-top: 70px;
+    }
+
+    .btn-wrapper {
+        width: 80%;
+        margin: 0 auto;
+        margin-top: 50px;
+    }
+    .btn-wrapper2 {
+        width: 60%;
+        margin: 0 auto;
+        margin-top: 50px;
+    }
+
+    .column {
+        float: left;
+        width: 30%;
+        margin: 0 auto;
+      }
+      
+      /* Clear floats after the columns */
+      .row:after {
+        content: "";
+        display: table;
+        clear: both;
+      }
 }
 

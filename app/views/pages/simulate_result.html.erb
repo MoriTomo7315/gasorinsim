@@ -1,6 +1,38 @@
-<ul>
-    <li>トータルコスト（￥）：<%= @totalCost %></li>
-    <li>総走行距離（Km）：<%= @totalRunning %></li>
-    <li>総給油回数 ：<%= @refuelingTimes %></li>
-    <li>総給油量（L）： <%= @totalAmountRefuel %> </li>
-</ul>
+<div class="container">
+    <div class="header-wrapper">
+        <h1>ガソリン給油シミュレーション</h1>
+    </div>
+    <div class="result-wrapper">
+    <h2 class="center-align">シミュレーション結果</h1>
+    <table class="table table-striped table-condensed table-bordered">
+        <thead>
+            <tr>
+                <th > 項目 </th>
+                <th > 値 </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th >トータルコスト</th>
+                <td ><%= @totalCost.to_i %> 円</td>
+            </tr>
+            <tr>
+                <th >総走行距離</th>
+                <td ><%= @totalRunning.to_i %> km </td>
+            </tr>
+            <tr>
+                <th >総給油回数</th>
+                <td ><%= @totalRunning.to_i %> 回</td>
+            </tr>
+            <tr>
+                <th >総給油量</th>
+                <td ><%= @totalAmountRefuel.to_i %> L</td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+
+    <div class=btn-wrapper2>
+        <%= link_to "Topに戻る", root_url, class: "btn btn-outline-primary btn-block" %>
+    </div>
+</div>

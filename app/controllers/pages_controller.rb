@@ -4,27 +4,19 @@ class PagesController < ApplicationController
   @@params_temp_gasstand = {gas_cheap: 0, gas_littlecheap: 0, gas_normal: 0, gas_littleexpensive: 0, gas_expensive: 0}
 
   def index
-    @bike = Bike.new
-  end
-
-  def set_gasstand
-    @bike = Bike.new(fuel_capa: params[:bike][:fuel_capa], fuel_per1km: params[:bike][:fuel_per1km])
-    @@params_temp_bike = {fuel_capa: params[:bike][:fuel_capa], fuel_per1km: params[:bike][:fuel_per1km]}
-    @gasstand = Gasstand.new
+    @simsetting = Simsetting.new
   end
 
   def simulate
-    @bike = Bike.new(fuel_capa: @@params_temp_bike[:fuel_capa], fuel_per1km: @@params_temp_bike[:fuel_per1km])
-    @gasstand = Gasstand.new(gas_cheap: params[:gasstand][:gas_cheap], 
-                            gas_littlecheap: params[:gasstand][:gas_littlecheap],
-                            gas_normal: params[:gasstand][:gas_normal],
-                            gas_littleexpensive: params[:gasstand][:gas_littleexpensive],
-                            gas_expensive: params[:gasstand][:gas_expensive])
-    @@params_temp_gasstand[:gas_cheap] = params[:gasstand][:gas_cheap]
-    @@params_temp_gasstand[:gas_littlecheap] = params[:gasstand][:gas_littlecheap]
-    @@params_temp_gasstand[:gas_normal] = params[:gasstand][:gas_normal]
-    @@params_temp_gasstand[:gas_littleexpensive] = params[:gasstand][:gas_littleexpensive]                          
-    @@params_temp_gasstand[:gas_expensive] = params[:gasstand][:gas_expensive]
+    @@params_temp_bike = {fuel_capa: params[:simsetting][:fuel_capa], fuel_per1km: params[:simsetting][:fuel_per1km]}
+    @@params_temp_gasstand = {gas_cheap: params[:simsetting][:gas_cheap], gas_littlecheap: params[:simsetting][:gas_littlecheap], 
+                            gas_normal: params[:simsetting][:gas_normal], gas_littleexpensive: params[:simsetting][:gas_littleexpensive],
+                            gas_expensive: params[:simsetting][:gas_expensive]}
+
+    @simsetting = Simsetting.new(fuel_capa: params[:simsetting][:fuel_capa], fuel_per1km: params[:simsetting][:fuel_per1km],
+                                gas_cheap: params[:simsetting][:gas_cheap], gas_littlecheap: params[:simsetting][:gas_littlecheap],
+                                gas_normal: params[:simsetting][:gas_normal], gas_littleexpensive: params[:simsetting][:gas_littleexpensive],
+                                gas_expensive: params[:simsetting][:gas_expensive])
   end
 
   def simulate_result

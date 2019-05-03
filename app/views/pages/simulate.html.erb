@@ -2,24 +2,63 @@
     <div class="header-wrapper">
         <h1>ガソリン給油シミュレーション</h1>
     </div>
-
     <div class="bike-wrapper">
         <h2>バイクの情報</h2>
-        <p>タンクの容量：<%= @bike.fuel_capa %>
-        <p>燃費：<%= @bike.fuel_per1km %>
+        <table class="table table-striped table-condensed table-bordered">
+            <thead>
+                <tr>
+                    <th class="col-md-8"> 項目 </th>
+                    <th class="col-md-4"> 値 </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th class="col-md-8">タンクの容量</th>
+                    <td class="col-md-4"><%= @simsetting.fuel_capa %></td>
+                </tr>
+                <tr>
+                    <th class="col-md-8">燃費</th>
+                    <td class="col-md-4"><%= @simsetting.fuel_per1km %></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
 
     <div class="gasstand-wrapper">
         <h2>ガソリンスタンドの情報</h2>
-        <p>最安値：<%= @gasstand.gas_cheap %>
-        <p>少し安め：<%= @gasstand.gas_littlecheap %>
-        <p>普通：<%= @gasstand.gas_normal %>
-        <p>少し高め：<%= @gasstand.gas_littleexpensive %>
-        <p>最高値：<%= @gasstand.gas_expensive %>
+        <table class="table table-striped table-condensed table-bordered">
+            <thead>
+                <tr>
+                    <th class="col-md-8"> 項目 </th>
+                    <th class="col-md-4"> 値 </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th class="col-md-8">最安値</th>
+                    <td class="col-md-4"><%= @simsetting.gas_cheap %></td>
+                </tr>
+                <tr>
+                    <th class="col-md-8">少し安め</th>
+                    <td class="col-md-4"><%= @simsetting.gas_littlecheap %></td>
+                </tr>
+                <tr>
+                    <th class="col-md-8">普通</th>
+                    <td class="col-md-4"><%= @simsetting.gas_normal %></td>
+                </tr>
+                <tr>
+                    <th class="col-md-8">少し高め</th>
+                    <td class="col-md-4"><%= @simsetting.gas_littleexpensive %></td>
+                </tr>
+                <tr>
+                    <th class="col-md-8">最高値</th>
+                    <td class="col-md-4"><%= @simsetting.gas_expensive %></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-
-    <%= form_tag simulate_result_path, method: "get" do %>
-        <%= submit_tag("シミュレーション開始") %>
-    <% end %>
+    <div class=btn-wrapper2>
+        <%= button_to "シミュレーション開始", {controller: 'pages', action: 'simulate_result'}, {method: :get, class: "btn btn-outline-primary btn-block"} %>
+    </div>
 </div>
