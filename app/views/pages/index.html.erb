@@ -13,25 +13,22 @@
                                 <%= f.label :fuel_capa, "タンクの容量(L)："%>
                                 <%= f.number_field :fuel_capa, class: "form-control"%>
                                 <%= f.label :fuel_per1km, "燃費(km/L)：" %>
-                                <%= f.number_field :fuel_per1km, class: "form-control" %>
+                                <%= f.number_field :fuel_per1km, step:0.1, class: "form-control" %>
+                                <%= f.label :fuel_threshold, "メータがどれくらいで給油しますか？" %>
+                                <!-- 20190504追加 -->
+                                <%= f.select :fuel_threshold, [["半分以上", "半分以上"],["半分切ったら", "半分切ったら"],["少なくなったら", "少なくなったら"],["ランプがついたら", "ランプがついたら"]], {}, class: "form-control dropdown-toggle" %>
                             </div>
                         </div>
                         <div class="column">
                             <div class="form-group">
-                                <%= f.label :gas_cheap, "最安値（円）：" %>
-                                <%= f.number_field :gas_cheap, class: "form-control" %>
+                                <%= f.label :dist_univ, "平日の平均的な走行距離（km）：" %>
+                                <%= f.number_field :dist_univ, step:0.1, class: "form-control" %>
                             
-                                <%= f.label :gas_littlecheap, "少し安め（円）：" %>
-                                <%= f.number_field :gas_littlecheap, class: "form-control"%>
+                                <%= f.label :dist_holiday, "休日の平均的な走行距離（km）：" %>
+                                <%= f.number_field :dist_holiday, step:0.1, class: "form-control"%>
                             
-                                <%= f.label :gas_normal, "普通（円）：" %>
-                                <%= f.number_field :gas_normal, class: "form-control"%>
-                            
-                                <%= f.label :gas_littleexpensive, "少し高め（円）：" %>
-                                <%= f.number_field :gas_littleexpensive, class: "form-control"%>
-                            
-                                <%= f.label :gas_expensive, "最高値（円）：" %>
-                                <%= f.number_field :gas_expensive, class: "form-control"%>
+                                <%= f.label :probability, "休日にお出かけする頻度：" %>
+                                <%= f.select :probability, [["ほぼほぼ", "ほぼほぼ"],["半々", "半々"],["気が向いたら", "気が向いたら"],["全然出かけない", "全然出かけない"]], {}, class: "form-control"%>                            
                             </div>
                         </div>
                     </div>

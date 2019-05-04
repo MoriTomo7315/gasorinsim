@@ -10,16 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_01_095058) do
+ActiveRecord::Schema.define(version: 2019_05_04_024503) do
 
   create_table "simsettings", force: :cascade do |t|
     t.float "fuel_capa"
     t.float "fuel_per1km"
-    t.float "gas_cheap"
-    t.float "gas_littlecheap"
-    t.float "gas_normal"
-    t.float "gas_littleexpensive"
-    t.float "gas_expensive"
+    t.string "fuel_threshold"
+    t.float "dist_univ"
+    t.float "dist_holiday"
+    t.string "probability"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

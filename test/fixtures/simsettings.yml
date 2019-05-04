@@ -3,17 +3,15 @@
 one:
   fuel_capa: 1.5
   fuel_per1km: 1.5
-  gas_cheap: 1.5
-  gas_littlecheap: 1.5
-  gas_normal: 1.5
-  gas_littleexpensive: 1.5
-  gas_expensive: 1.5
+  fuel_threshold: MyString
+  dist_univ: 1.5
+  dist_holiday: 1.5
+  probability: MyString
 
 two:
   fuel_capa: 1.5
   fuel_per1km: 1.5
-  gas_cheap: 1.5
-  gas_littlecheap: 1.5
-  gas_normal: 1.5
-  gas_littleexpensive: 1.5
-  gas_expensive: 1.5
+  fuel_threshold: MyString
+  dist_univ: 1.5
+  dist_holiday: 1.5
+  probability: MyString

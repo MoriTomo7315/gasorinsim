@@ -3,22 +3,26 @@
         <h1>ガソリン給油シミュレーション</h1>
     </div>
     <div class="bike-wrapper">
-        <h2>バイクの情報</h2>
+        <h2>車両の情報</h2>
         <table class="table table-striped table-condensed table-bordered">
             <thead>
                 <tr>
-                    <th class="col-md-8"> 項目 </th>
-                    <th class="col-md-4"> 値 </th>
+                    <th class="col-md-5"> 項目 </th>
+                    <th class="col-md-7"> 値 </th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <th class="col-md-8">タンクの容量</th>
-                    <td class="col-md-4"><%= @simsetting.fuel_capa %></td>
+                    <th class="col-md-5">タンクの容量</th>
+                    <td class="col-md-7"><%= @simsetting.fuel_capa %></td>
                 </tr>
                 <tr>
-                    <th class="col-md-8">燃費</th>
-                    <td class="col-md-4"><%= @simsetting.fuel_per1km %></td>
+                    <th class="col-md-5">燃費</th>
+                    <td class="col-md-7"><%= @simsetting.fuel_per1km %></td>
+                </tr>
+                <tr>
+                    <th class="col-md-5">メータがどれくらいで給油しますか？</th>
+                    <td class="col-md-7"><%= @simsetting.fuel_threshold %></td>
                 </tr>
             </tbody>
         </table>
@@ -26,34 +30,26 @@
 
 
     <div class="gasstand-wrapper">
-        <h2>ガソリンスタンドの情報</h2>
+        <h2>乗り方の情報</h2>
         <table class="table table-striped table-condensed table-bordered">
             <thead>
                 <tr>
-                    <th class="col-md-8"> 項目 </th>
-                    <th class="col-md-4"> 値 </th>
+                    <th class="col-md-5"> 項目 </th>
+                    <th class="col-md-7"> 値 </th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <th class="col-md-8">最安値</th>
-                    <td class="col-md-4"><%= @simsetting.gas_cheap %></td>
+                    <th class="col-md-5">平日の平均的な走行距離</th>
+                    <td class="col-md-7"><%= @simsetting.dist_univ %> km</td>
                 </tr>
                 <tr>
-                    <th class="col-md-8">少し安め</th>
-                    <td class="col-md-4"><%= @simsetting.gas_littlecheap %></td>
+                    <th class="col-md-5">休日の平均的な走行距離</th>
+                    <td class="col-md-7"><%= @simsetting.dist_holiday %> km</td>
                 </tr>
                 <tr>
-                    <th class="col-md-8">普通</th>
-                    <td class="col-md-4"><%= @simsetting.gas_normal %></td>
-                </tr>
-                <tr>
-                    <th class="col-md-8">少し高め</th>
-                    <td class="col-md-4"><%= @simsetting.gas_littleexpensive %></td>
-                </tr>
-                <tr>
-                    <th class="col-md-8">最高値</th>
-                    <td class="col-md-4"><%= @simsetting.gas_expensive %></td>
+                    <th class="col-md-5">休日にお出かけする頻度</th>
+                    <td class="col-md-7"><%= @simsetting.probability %></td>
                 </tr>
             </tbody>
         </table>

@@ -3,11 +3,10 @@ class CreateSimsettings < ActiveRecord::Migration[5.2]
     create_table :simsettings do |t|
       t.float :fuel_capa
       t.float :fuel_per1km
-      t.float :gas_cheap
-      t.float :gas_littlecheap
-      t.float :gas_normal
-      t.float :gas_littleexpensive
-      t.float :gas_expensive
+      t.string :fuel_threshold
+      t.float :dist_univ
+      t.float :dist_holiday
+      t.string :probability
 
       t.timestamps
     end

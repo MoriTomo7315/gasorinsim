@@ -1,43 +1,74 @@
 class PagesController < ApplicationController
 
-  @@params_temp_bike = {fuel_capa: 0, fuel_per1km: 0}
-  @@params_temp_gasstand = {gas_cheap: 0, gas_littlecheap: 0, gas_normal: 0, gas_littleexpensive: 0, gas_expensive: 0}
+  # タンク容量、給油するときのメータ位置、燃費
+  @@params_temp_vehicle = {fuel_capa: 0, fuel_per1km: 0 ,fuel_threshold: 0}
+  # 平日の走行距離、休日の走行距離
+  @@params_temp_distance = {dist_univ: 0, dist_holiday: 0}
+  # 休日にお出かけする確率（:probability属性に格納予定）
+  @@params_temp_probability = 0
 
   def index
     @simsetting = Simsetting.new
   end
 
   def simulate
-    @@params_temp_bike = {fuel_capa: params[:simsetting][:fuel_capa], fuel_per1km: params[:simsetting][:fuel_per1km]}
-    @@params_temp_gasstand = {gas_cheap: params[:simsetting][:gas_cheap], gas_littlecheap: params[:simsetting][:gas_littlecheap], 
-                            gas_normal: params[:simsetting][:gas_normal], gas_littleexpensive: params[:simsetting][:gas_littleexpensive],
-                            gas_expensive: params[:simsetting][:gas_expensive]}
 
-    @simsetting = Simsetting.new(fuel_capa: params[:simsetting][:fuel_capa], fuel_per1km: params[:simsetting][:fuel_per1km],
-                                gas_cheap: params[:simsetting][:gas_cheap], gas_littlecheap: params[:simsetting][:gas_littlecheap],
-                                gas_normal: params[:simsetting][:gas_normal], gas_littleexpensive: params[:simsetting][:gas_littleexpensive],
-                                gas_expensive: params[:simsetting][:gas_expensive])
+    case params[:simsetting][:fuel_threshold]
+    when "半分以上" then
+      @@params_temp_vehicle[:fuel_threshold] = 0.6
+    when "半分切ったら" then
+      @@params_temp_vehicle[:fuel_threshold] = 0.4
+    when "少なくなったら" then
+      @@params_temp_vehicle[:fuel_threshold] = 0.3
+    else
+      @@params_temp_vehicle[:fuel_threshold] = 0.1
+    end
+
+    case params[:simsetting][:probability]
+    when "ほぼほぼ" then
+      @@params_temp_probability = 0.8
+    when "半々" then
+      @@params_temp_probability = 0.5
+    when "気が向いたら" then
+      @@params_temp_probability = 0.3
+    else
+      @@params_temp_probability = 0.1
+    end
+
+
+    @@params_temp_vehicle = {fuel_capa: params[:simsetting][:fuel_capa], 
+                            fuel_per1km: params[:simsetting][:fuel_per1km]}
+    
+    @@params_temp_distance = {dist_univ: params[:simsetting][:dist_univ],
+                              dist_holiday: params[:simsetting][:dist_holiday]}
+
+    @simsetting = Simsetting.new(fuel_capa: params[:simsetting][:fuel_capa], 
+                                fuel_per1km: params[:simsetting][:fuel_per1km], 
+                                fuel_threshold: params[:simsetting][:fuel_threshold],
+                                dist_univ: params[:simsetting][:dist_univ],
+                                dist_holiday: params[:simsetting][:dist_holiday],
+                                probability: params[:simsetting][:probability]
+                                )
   end
 
   def simulate_result
-    simulate_time = (1..365).to_a
-    normal_random = RandomBell.new
-    distance_dist_Sat = RandomBell.new(mu: 10, sigma: 5)
-    distance_dist_Sun = RandomBell.new(mu: 15, sigma: 5)
-    fuel_tank     = 0
-    fuel_capa     = @@params_temp_bike[:fuel_capa].to_f
-    fuel_per1km   = @@params_temp_bike[:fuel_per1km].to_f
-    fueling_litter = 0 # 給油量
+    simulate_time        = (1..365).to_a
+    normal_random        = RandomBell.new
+    distance_dist_normal = @@params_temp_distance[:dist_univ].to_f
+    distance_dist_holi   = RandomBell.new(mu: @@params_temp_distance[:dist_holiday].to_f, sigma: (@@params_temp_distance[:dist_holiday].to_f)/2)
+    fuel_tank            = 0
+    fuel_capa            = @@params_temp_vehicle[:fuel_capa].to_f
+    fuel_per1km          = @@params_temp_vehicle[:fuel_per1km].to_f
+    fuel_threshold       = fuel_tank * @@params_temp_vehicle[:fuel_threshold].to_f
+    fueling_litter       = 0 # 給油量
     total_amountOfrefuel = 0 # 総給油量
-    refueling_times = 0 # 給油回数
-    running_distance = 0 # お出かけ距離
-    total_running    = 0 # 総距離
-    total_cost = 0 # 総コスト
+    refueling_times      = 0 # 給油回数
+    running_distance     = 0 # お出かけ距離
+    total_running        = 0 # 総距離
+    total_cost           = 0 # 総コスト
 
 
-    gas_price_array = [@@params_temp_gasstand[:gas_cheap].to_f, @@params_temp_gasstand[:gas_littlecheap].to_f,
-                      @@params_temp_gasstand[:gas_normal].to_f, @@params_temp_gasstand[:gas_littleexpensive].to_f, 
-                      @@params_temp_gasstand[:gas_expensive].to_f]
+    gas_price_array = [ 140.0, 142.0, 144.0, 146.0, 148.0 ]
 
     simulate_time.each do |i|
 
@@ -53,9 +84,8 @@ class PagesController < ApplicationController
       gas_price += normal_random.rand
       # - - - - - - - -  - - - - - - -
 
-      # - - バイクのタンクチェック - - - -
-      # 0.8L以下なら給油する
-      if fuel_tank < 0.8
+      # - - 車両のメータチェック - - - -
+      if fuel_tank < fuel_threshold
         fueling_litter = fuel_capa - fuel_tank
         total_amountOfrefuel += fueling_litter
         total_cost += gas_price * fueling_litter
@@ -64,34 +94,22 @@ class PagesController < ApplicationController
       end
       # - - - - - - - - - - - - - - - 
       
-      # iが6ならば，土曜日であると仮定
-      if i % 6 == 0
-        # 0.15の確率でお出かけする．（土曜は少し疲れてるのであまり長距離ドライブはしたくない）
-        if Random.rand(100)/100 < 0.15
+      # iが6,7ならば，土曜日, 日曜日であると仮定
+      if  i % 6 == 0 || i % 7 == 0
+        if Random.rand(100)/100 < @@params_temp_probability
           # お出かけの距離
-          running_distance = distance_dist_Sat.rand
+          running_distance = distance_dist_holi.rand
           # 距離が正になるよう調整
           while running_distance <= 0
-              running_distance = distance_dist_Sat.rand
+              running_distance = distance_dist_holi.rand
           end
 
         total_running += 2 * running_distance
         fuel_tank -= (1.0/fuel_per1km) * 2 * running_distance
         end
-      elsif i % 7 == 0 #日曜
-        # 0.2の確率でお出かけする．（日曜は元気だから長距離ドライブをしてもいいかな〜って気分）
-        if Random.rand(100)/100 < 0.2
-          running_distance = distance_dist_Sun.rand
-          while running_distance <= 0
-            running_distance = distance_dist_Sun.rand
-          end
-          total_running += 2 * running_distance
-          fuel_tank -= (1.0/fuel_per1km) * 2 * running_distance
-        end
       else # 平日
-        # うちから大学まで7.6kmです．
-        total_running += 2 * 7.6
-        fuel_tank -= (1.0/fuel_per1km) * 2 * 7.6
+        total_running += distance_dist_normal
+        fuel_tank -= (1.0/fuel_per1km) * distance_dist_normal
       end
     end
     @totalCost = total_cost
