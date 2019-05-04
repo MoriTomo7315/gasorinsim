@@ -15,7 +15,6 @@
                                 <%= f.label :fuel_per1km, "燃費(km/L)：" %>
                                 <%= f.number_field :fuel_per1km, step:0.1, class: "form-control" %>
                                 <%= f.label :fuel_threshold, "メータがどれくらいで給油しますか？" %>
-                                <!-- 20190504追加 -->
                                 <%= f.select :fuel_threshold, [["半分以上", "半分以上"],["半分切ったら", "半分切ったら"],["少なくなったら", "少なくなったら"],["ランプがついたら", "ランプがついたら"]], {}, class: "form-control dropdown-toggle" %>
                             </div>
                         </div>
